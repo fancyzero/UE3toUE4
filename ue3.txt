@@ -1,0 +1,175 @@
+Begin Object Class=ParticleSystem Name=Test
+   Begin Object Class=InterpCurveEdSetup Name=InterpCurveEdSetup_0
+      Name="InterpCurveEdSetup_0"
+      ObjectArchetype=InterpCurveEdSetup'Engine.Default__InterpCurveEdSetup'
+   End Object
+   Begin Object Class=ParticleSpriteEmitter Name=ParticleSpriteEmitter_0
+      Begin Object Class=ParticleLODLevel Name=ParticleLODLevel_0
+         Begin Object Class=ParticleModuleRequired Name=ParticleModuleRequired_0
+            Begin Object Class=DistributionFloatConstant Name=RequiredDistributionSpawnRate ObjName=DistributionFloatConstant_0 Archetype=DistributionFloatConstant'Engine.Default__ParticleModuleRequired:RequiredDistributionSpawnRate'
+               Name="DistributionFloatConstant_0"
+               ObjectArchetype=DistributionFloatConstant'Engine.Default__ParticleModuleRequired:RequiredDistributionSpawnRate'
+            End Object
+            Material=Material'EngineMaterials.DefaultParticle'
+            bUseLegacyEmitterTime=False
+            RandomImageTime=1.000000
+            LODValidity=1
+            ModuleEditorColor=(B=139,G=0,R=195,A=255)
+            Name="ParticleModuleRequired_0"
+            ObjectArchetype=ParticleModuleRequired'Engine.Default__ParticleModuleRequired'
+         End Object
+         RequiredModule=ParticleModuleRequired'ParticleModuleRequired_0'
+         Begin Object Class=ParticleModuleLifetime Name=ParticleModuleLifetime_0
+            Begin Object Class=DistributionFloatUniform Name=DistributionLifetime ObjName=DistributionFloatUniform_0 Archetype=DistributionFloatUniform'Engine.Default__ParticleModuleLifetime:DistributionLifetime'
+               Min=1.000000
+               Max=1.000000
+               bIsDirty=False
+               Name="DistributionFloatUniform_0"
+               ObjectArchetype=DistributionFloatUniform'Engine.Default__ParticleModuleLifetime:DistributionLifetime'
+            End Object
+            LifeTime=(Distribution=DistributionFloatUniform'DistributionFloatUniform_0',LookupTable=(1.000000,1.000000,1.000000,1.000000))
+            LODValidity=1
+            ModuleEditorColor=(B=189,G=0,R=149,A=255)
+            Name="ParticleModuleLifetime_0"
+            ObjectArchetype=ParticleModuleLifetime'Engine.Default__ParticleModuleLifetime'
+         End Object
+         Modules(0)=ParticleModuleLifetime'ParticleModuleLifetime_0'
+         Begin Object Class=ParticleModuleSize Name=ParticleModuleSize_0
+            Begin Object Class=DistributionVectorUniform Name=DistributionStartSize ObjName=DistributionVectorUniform_0 Archetype=DistributionVectorUniform'Engine.Default__ParticleModuleSize:DistributionStartSize'
+               Max=(X=25.000000,Y=25.000000,Z=25.000000)
+               Min=(X=25.000000,Y=25.000000,Z=25.000000)
+               bIsDirty=False
+               Name="DistributionVectorUniform_0"
+               ObjectArchetype=DistributionVectorUniform'Engine.Default__ParticleModuleSize:DistributionStartSize'
+            End Object
+            StartSize=(Distribution=DistributionVectorUniform'DistributionVectorUniform_0',LookupTable=(25.000000,25.000000,25.000000,25.000000,25.000000,25.000000,25.000000,25.000000))
+            LODValidity=1
+            ModuleEditorColor=(B=214,G=0,R=105,A=255)
+            Name="ParticleModuleSize_0"
+            ObjectArchetype=ParticleModuleSize'Engine.Default__ParticleModuleSize'
+         End Object
+         Modules(1)=ParticleModuleSize'ParticleModuleSize_0'
+         Begin Object Class=ParticleModuleVelocity Name=ParticleModuleVelocity_0
+            Begin Object Class=DistributionVectorUniform Name=DistributionStartVelocity ObjName=DistributionVectorUniform_1 Archetype=DistributionVectorUniform'Engine.Default__ParticleModuleVelocity:DistributionStartVelocity'
+               Max=(X=10.000000,Y=10.000000,Z=100.000000)
+               Min=(X=-10.000000,Y=-10.000000,Z=50.000000)
+               bIsDirty=False
+               Name="DistributionVectorUniform_1"
+               ObjectArchetype=DistributionVectorUniform'Engine.Default__ParticleModuleVelocity:DistributionStartVelocity'
+            End Object
+            Begin Object Class=DistributionFloatUniform Name=DistributionStartVelocityRadial ObjName=DistributionFloatUniform_1 Archetype=DistributionFloatUniform'Engine.Default__ParticleModuleVelocity:DistributionStartVelocityRadial'
+               bIsDirty=False
+               Name="DistributionFloatUniform_1"
+               ObjectArchetype=DistributionFloatUniform'Engine.Default__ParticleModuleVelocity:DistributionStartVelocityRadial'
+            End Object
+            StartVelocity=(Distribution=DistributionVectorUniform'DistributionVectorUniform_1',Op=2,LookupTableNumElements=2,LookupTableChunkSize=6,LookupTable=(-10.000000,100.000000,-10.000000,-10.000000,50.000000,10.000000,10.000000,100.000000,-10.000000,-10.000000,50.000000,10.000000,10.000000,100.000000))
+            StartVelocityRadial=(Distribution=DistributionFloatUniform'DistributionFloatUniform_1')
+            LODValidity=1
+            ModuleEditorColor=(B=99,G=0,R=216,A=255)
+            Name="ParticleModuleVelocity_0"
+            ObjectArchetype=ParticleModuleVelocity'Engine.Default__ParticleModuleVelocity'
+         End Object
+         Modules(2)=ParticleModuleVelocity'ParticleModuleVelocity_0'
+         Begin Object Class=ParticleModuleColorOverLife Name=ParticleModuleColorOverLife_0
+            Begin Object Class=DistributionVectorConstantCurve Name=DistributionColorOverLife ObjName=DistributionVectorConstantCurve_0 Archetype=DistributionVectorConstantCurve'Engine.Default__ParticleModuleColorOverLife:DistributionColorOverLife'
+               ConstantCurve=(Points=((OutVal=(X=1.000000,Y=1.000000,Z=1.000000)),(InVal=1.000000,OutVal=(X=1.000000,Y=1.000000,Z=1.000000))))
+               bIsDirty=False
+               Name="DistributionVectorConstantCurve_0"
+               ObjectArchetype=DistributionVectorConstantCurve'Engine.Default__ParticleModuleColorOverLife:DistributionColorOverLife'
+            End Object
+            Begin Object Class=DistributionFloatConstantCurve Name=DistributionFloatConstantCurve_0 ObjName=DistributionFloatConstantCurve_0
+               ConstantCurve=(Points=((OutVal=1.000000),(InVal=1.000000)))
+               bIsDirty=False
+               Name="DistributionFloatConstantCurve_0"
+               ObjectArchetype=DistributionFloatConstantCurve'Engine.Default__DistributionFloatConstantCurve'
+            End Object
+            ColorOverLife=(Distribution=DistributionVectorConstantCurve'DistributionVectorConstantCurve_0',LookupTable=(1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000),LookupTableTimeScale=1.000000)
+            AlphaOverLife=(Distribution=DistributionFloatConstantCurve'DistributionFloatConstantCurve_0',LookupTable=(0.000000,1.000000,1.000000,0.000000),LookupTableTimeScale=1.000000)
+            LODValidity=1
+            ModuleEditorColor=(B=230,G=0,R=50,A=255)
+            Name="ParticleModuleColorOverLife_0"
+            ObjectArchetype=ParticleModuleColorOverLife'Engine.Default__ParticleModuleColorOverLife'
+         End Object
+         Modules(3)=ParticleModuleColorOverLife'ParticleModuleColorOverLife_0'
+         Begin Object Class=ParticleModuleSpawn Name=ParticleModuleSpawn_0
+            Begin Object Class=DistributionFloatConstant Name=RequiredDistributionSpawnRate ObjName=DistributionFloatConstant_1 Archetype=DistributionFloatConstant'Engine.Default__ParticleModuleSpawn:RequiredDistributionSpawnRate'
+               bIsDirty=False
+               Name="DistributionFloatConstant_1"
+               ObjectArchetype=DistributionFloatConstant'Engine.Default__ParticleModuleSpawn:RequiredDistributionSpawnRate'
+            End Object
+            Begin Object Class=DistributionFloatConstant Name=RequiredDistributionSpawnRateScale ObjName=DistributionFloatConstant_2 Archetype=DistributionFloatConstant'Engine.Default__ParticleModuleSpawn:RequiredDistributionSpawnRateScale'
+               bIsDirty=False
+               Name="DistributionFloatConstant_2"
+               ObjectArchetype=DistributionFloatConstant'Engine.Default__ParticleModuleSpawn:RequiredDistributionSpawnRateScale'
+            End Object
+            rate=(Distribution=DistributionFloatConstant'DistributionFloatConstant_1')
+            RateScale=(Distribution=DistributionFloatConstant'DistributionFloatConstant_2')
+            LODValidity=1
+            ModuleEditorColor=(B=182,G=0,R=157,A=255)
+            Name="ParticleModuleSpawn_0"
+            ObjectArchetype=ParticleModuleSpawn'Engine.Default__ParticleModuleSpawn'
+         End Object
+         SpawnModule=ParticleModuleSpawn'ParticleModuleSpawn_0'
+         PeakActiveParticles=22
+         Name="ParticleLODLevel_0"
+         ObjectArchetype=ParticleLODLevel'Engine.Default__ParticleLODLevel'
+      End Object
+      EmitterEditorColor=(B=0,G=171,R=169,A=255)
+      LODLevels(0)=ParticleLODLevel'ParticleLODLevel_0'
+      Name="ParticleSpriteEmitter_0"
+      ObjectArchetype=ParticleSpriteEmitter'Engine.Default__ParticleSpriteEmitter'
+   End Object
+   Begin Object Class=ParticleModuleRequired Name=ParticleModuleRequired_0
+      Material=Material'EngineMaterials.DefaultParticle'
+      bUseLegacyEmitterTime=False
+      RandomImageTime=1.000000
+      LODValidity=1
+      ModuleEditorColor=(B=139,G=0,R=195,A=255)
+      Name="ParticleModuleRequired_0"
+      ObjectArchetype=ParticleModuleRequired'Engine.Default__ParticleModuleRequired'
+   End Object
+   Begin Object Class=ParticleModuleSpawn Name=ParticleModuleSpawn_0
+      rate=(Distribution=DistributionFloatConstant'DistributionFloatConstant_1')
+      RateScale=(Distribution=DistributionFloatConstant'DistributionFloatConstant_2')
+      LODValidity=1
+      ModuleEditorColor=(B=182,G=0,R=157,A=255)
+      Name="ParticleModuleSpawn_0"
+      ObjectArchetype=ParticleModuleSpawn'Engine.Default__ParticleModuleSpawn'
+   End Object
+   Begin Object Class=ParticleModuleLifetime Name=ParticleModuleLifetime_0
+      LifeTime=(Distribution=DistributionFloatUniform'DistributionFloatUniform_0',LookupTable=(1.000000,1.000000,1.000000,1.000000))
+      LODValidity=1
+      ModuleEditorColor=(B=189,G=0,R=149,A=255)
+      Name="ParticleModuleLifetime_0"
+      ObjectArchetype=ParticleModuleLifetime'Engine.Default__ParticleModuleLifetime'
+   End Object
+   Begin Object Class=ParticleModuleSize Name=ParticleModuleSize_0
+      StartSize=(Distribution=DistributionVectorUniform'DistributionVectorUniform_0',LookupTable=(25.000000,25.000000,25.000000,25.000000,25.000000,25.000000,25.000000,25.000000))
+      LODValidity=1
+      ModuleEditorColor=(B=214,G=0,R=105,A=255)
+      Name="ParticleModuleSize_0"
+      ObjectArchetype=ParticleModuleSize'Engine.Default__ParticleModuleSize'
+   End Object
+   Begin Object Class=ParticleModuleVelocity Name=ParticleModuleVelocity_0
+      StartVelocity=(Distribution=DistributionVectorUniform'DistributionVectorUniform_1',Op=2,LookupTableNumElements=2,LookupTableChunkSize=6,LookupTable=(-10.000000,100.000000,-10.000000,-10.000000,50.000000,10.000000,10.000000,100.000000,-10.000000,-10.000000,50.000000,10.000000,10.000000,100.000000))
+      StartVelocityRadial=(Distribution=DistributionFloatUniform'DistributionFloatUniform_1')
+      LODValidity=1
+      ModuleEditorColor=(B=99,G=0,R=216,A=255)
+      Name="ParticleModuleVelocity_0"
+      ObjectArchetype=ParticleModuleVelocity'Engine.Default__ParticleModuleVelocity'
+   End Object
+   Begin Object Class=ParticleModuleColorOverLife Name=ParticleModuleColorOverLife_0
+      ColorOverLife=(Distribution=DistributionVectorConstantCurve'DistributionVectorConstantCurve_0',LookupTable=(1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000,1.000000),LookupTableTimeScale=1.000000)
+      AlphaOverLife=(Distribution=DistributionFloatConstantCurve'DistributionFloatConstantCurve_0',LookupTable=(0.000000,1.000000,1.000000,0.000000),LookupTableTimeScale=1.000000)
+      LODValidity=1
+      ModuleEditorColor=(B=230,G=0,R=50,A=255)
+      Name="ParticleModuleColorOverLife_0"
+      ObjectArchetype=ParticleModuleColorOverLife'Engine.Default__ParticleModuleColorOverLife'
+   End Object
+   UpdateTime_Delta=0.016667
+   Emitters(0)=ParticleSpriteEmitter'ParticleSpriteEmitter_0'
+   CurveEdSetup=InterpCurveEdSetup'InterpCurveEdSetup_0'
+   LODDistances(0)=0.000000
+   Name="Test"
+   ObjectArchetype=ParticleSystem'Engine.Default__ParticleSystem'
+End Object
