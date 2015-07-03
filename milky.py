@@ -7,6 +7,7 @@ class Object:
 		self.children = []
 		self.data = []
 		self.parent = None
+		
 	def list_child(self):
 		for child in self.children:
 			print child.name
@@ -21,8 +22,21 @@ class Object:
 	def detach_from_parent(self):
 		if self.parent != None:
 			self.parent.children.remove(self)
-		self.parent = None		
-
+		self.parent = None	
+		
+	def output_struct(self, depth):
+		str = "\t" * depth;
+		if self.name:
+			str += "name: " + self.name 
+		if self.cls:
+			str  += "<"+self.cls+">"
+		print str
+		for child in self.children:
+			child.output_struct(depth+1)
+			
+	def output(self):
+		pass
+		
 def find_obj_by_class(root, class_name):
 	if root == None:
 		return None
@@ -94,7 +108,7 @@ def convert_to_ue4(root):
 def list_struct(filename):
 	f = open(filename)
 	root = read_object(None,f)
-	show_object(root,0)
+	root.output_struct(0)
 
 def convert_file(filename):
 	f = open(filename)
@@ -104,32 +118,14 @@ def convert_file(filename):
 	root = read_object(None,f)
 
 	convert_to_ue4(root)
-	show_object(root,0)
+	root.output_struct( 0)
 
 def main():
 	if len(sys.argv) < 2:
 		print " need file name"
 		exit()
-
-	convert_file(sys.argv[1])
-
-
-
-def show_object(obj, depth):
-	str = "\t" * depth;
-	if obj.name:
-		str += "name: " + obj.name 
-	if obj.cls:
-		str  += "<"+obj.cls+">"
-	print str
-	#for line in obj.data:
-	#	print "\t" * depth + line
-	for child in obj.children:
-		show_object(child, depth+1)
-#		if obj.cls == None:
-#			print "\t" * intent + "obj_ref: name="+obj.name
-#		else:
-#			print "\t" * intent + "obj_def: name="+obj.name+" class="+obj.cls
+	filename = sys.argv[1]
+	list_struct(filename)
 
 main()
 
