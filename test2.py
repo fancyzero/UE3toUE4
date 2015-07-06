@@ -1,28 +1,53 @@
 import pyparsing as pp
 
-delimeter = pp.Keyword(",")
 
-lparen = pp.Suppress("(")
-rparen = pp.Suppress(")")
+#define the elements of pattern
 
-qs = pp.quotedString("\"")
+#unreal naming convention
+name = pp.Word(pp.alphas,pp.alphanums+"_")
 
-nonBracePrintables = ''.join(c for c in pp.printables if c not in '()')
-Word = ~(delimeter ) + pp.Word(nonBracePrintables)("Word")
-Phrase = pp.Forward()
-Phrase << Word ^ \
-        pp.operatorPrecedence(Phrase, [
-            (delimeter, 2, pp.opAssoc.LEFT)
-        ])
-Expression = (
-    pp.operatorPrecedence(pp.OneOrMore(Word),
-    [
-        (delimeter, 2, pp.opAssoc.LEFT)
-    ])
-)
-def test(text):
-    output = Expression.parseString(text)
-    print output.asXML()
+EQ,OPENER,CLOSER=map(pp.Suppress,"=()")
+#this is telling pyparsing the value is recursive
+value = pp.Forward()
+
+#the name=value pair
+my_commasepitem = pp.Combine(pp.OneOrMore(pp.Word(pp.printables, excludeChars='(),') +
+                                  pp.Optional( pp.Word(" \t") +
+                                            ~pp.Literal(",") + ~pp.LineEnd() ) ) ).streamline().setName("MycommaItem")
+MycommaSeparatedList = pp.delimitedList( pp.Optional( pp.quotedString.copy() | my_commasepitem, default=""),combine=False ).setName("MycommaSeparatedList")
 
 
-test("a=(c,b,((c,d)))")
+
+entry = pp.Group(name+EQ+value)+pp.ZeroOrMore( pp.Suppress( "," ))
+struct = pp.Dict(OPENER + pp.ZeroOrMore(entry)  + CLOSER)
+
+array = OPENER + MycommaSeparatedList + CLOSER
+
+simple_value = pp.quotedString.copy() | pp.Word( pp.printables,excludeChars="()")
+
+value << ( struct |array |simple_value )
+
+
+target = "A=(b=(1,2,3),c=(d=(2,2,3)),x=\"9(fd,,,sa)\")"
+
+
+target2 = "(1,2,3,4)"
+output = pp.OneOrMore(entry).parseString(target)
+#output = (struct_array).parseString(target)
+p = output.asList()
+
+def dump(r,d):
+    for i in r:
+        if i.__class__ == list:
+            dump(i, d+1)
+        else:
+            print " "*d + i
+
+
+dump(p,0)
+
+
+
+
+
+
