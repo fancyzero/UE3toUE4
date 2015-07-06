@@ -1,3 +1,4 @@
+import pyparsing as pp
 import sys
 import PyUObject
 import re
@@ -5,6 +6,29 @@ import re
 # represent structure and intent level when output
 intent_str = "   "
 intent = 0
+
+def parse_properties(props):
+    delimeter = pp.Keyword(",")
+    lparen = pp.Suppress("(")
+    rparen = pp.Suppress(")")
+
+    nonBracePrintables = ''.join(c for c in pp.printables if c not in '()')
+    Word = ~(delimeter ) + pp.Word(nonBracePrintables)("Word")
+
+    Phrase = pp.Forward()
+
+    Phrase << Word ^ \
+            pp.operatorPrecedence(Phrase, [
+                (delimeter, 2, pp.opAssoc.LEFT)
+            ])
+
+    Expression = (
+        pp.operatorPrecedence(pp.OneOrMore(Word), [
+            (delimeter, 2, pp.opAssoc.LEFT)
+        ])
+    )
+
+    return Expression.parseString(props)
 
 def add_intent():
     global intent
@@ -44,32 +68,12 @@ def fix_properties(obj):
         if k == "Name":
             del obj.properties[k]
 
-
 def extract_params(line):
     params = re.findall(r'(\w+)=\"*(\w+)\"*', line)
     pmap = {}
     for k, v in params:
         pmap[k] = v
     return pmap
-
-def parse_properties(line):
-    pos = line.find("=")
-    k = line[0:pos]
-    v = line[pos+1:]
-    starts_with_parenthsis = v.startswith("(")
-    have_assign = v.find("=") >= 0
-    if starts_with_parenthsis and have_assign:
-        v=v[1:-1]
-        subparray = re.findall("\w+=\(.*?\)|\w+=\".*?\"|\w+=.*?,|\w+=.*",v)
-        v={}
-
-        for subp in subparray:
-            if subp.endswith(","):#clean out ending ","
-                subp=subp[:-1]
-            subk, subv = parse_properties( subp )
-            v[subk]=subv
-    return k,v
-
 
 def read_object(obj,f):
     child = None
@@ -89,8 +93,9 @@ def read_object(obj,f):
             return obj
         else:
             if obj != None:
-                k,v=parse_properties(line)
-                obj.properties[k] = v
+                props=parse_properties(line)
+                print props
+
     return child
 
 def convert(root, obj):
@@ -124,6 +129,8 @@ def main():
         exit()
     filename = sys.argv[1]
     convert_file(filename)
+
+
 
 main()
 
