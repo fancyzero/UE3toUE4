@@ -54,6 +54,7 @@ target4="C=(P=(1,1))"
 #target4="C=(P=((O=(X=1,Y=1,Z=1)),(I=1,O=(X=1,Y=1,Z=1))))"
 output = pp.OneOrMore(entry).parseString(target4)
 
+output.items()
 
 def dump(r,d):
     for i in r:

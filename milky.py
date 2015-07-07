@@ -7,28 +7,21 @@ import re
 intent_str = "   "
 intent = 0
 
+
+name = pp.Word(pp.alphas,pp.alphanums+"_")
+COMMA,EQ,OPENER,CLOSER=map(pp.Suppress,",=()")
+
+value = pp.Forward()
+entry = name+EQ+value
+simple_value = (pp.dblQuotedString.copy() | pp.Word( pp.printables,excludeChars=",()") )
+nested_struct =  OPENER + pp.Group(pp.OneOrMore(entry)) + pp.ZeroOrMore(COMMA + pp.Group(entry)) + CLOSER
+simple_array = OPENER + pp.Group(pp.OneOrMore(value)) + pp.ZeroOrMore(COMMA + pp.Group(value)) + CLOSER
+value << (nested_struct | simple_array |simple_value )
+
 def parse_properties(props):
-    delimeter = pp.Keyword(",")
-    lparen = pp.Suppress("(")
-    rparen = pp.Suppress(")")
-
-    nonBracePrintables = ''.join(c for c in pp.printables if c not in '()')
-    Word = ~(delimeter ) + pp.Word(nonBracePrintables)("Word")
-
-    Phrase = pp.Forward()
-
-    Phrase << Word ^ \
-            pp.operatorPrecedence(Phrase, [
-                (delimeter, 2, pp.opAssoc.LEFT)
-            ])
-
-    Expression = (
-        pp.operatorPrecedence(pp.OneOrMore(Word), [
-            (delimeter, 2, pp.opAssoc.LEFT)
-        ])
-    )
-
-    return Expression.parseString(props)
+    ppresult = entry.parseString(props)
+    print ppresult.asXML()
+    return {"1":"2"}
 
 def add_intent():
     global intent
