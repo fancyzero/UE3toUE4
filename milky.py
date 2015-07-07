@@ -1,27 +1,14 @@
-import pyparsing as pp
 import sys
 import PyUObject
+import T3DPropertyParser as t3dpp
 import re
 
 # represent structure and intent level when output
 intent_str = "   "
 intent = 0
 
-
-name = pp.Word(pp.alphas,pp.alphanums+"_")
-COMMA,EQ,OPENER,CLOSER=map(pp.Suppress,",=()")
-
-value = pp.Forward()
-entry = name+EQ+value
-simple_value = (pp.dblQuotedString.copy() | pp.Word( pp.printables,excludeChars=",()") )
-nested_struct =  OPENER + pp.Group(pp.OneOrMore(entry)) + pp.ZeroOrMore(COMMA + pp.Group(entry)) + CLOSER
-simple_array = OPENER + pp.Group(pp.OneOrMore(value)) + pp.ZeroOrMore(COMMA + pp.Group(value)) + CLOSER
-value << (nested_struct | simple_array |simple_value )
-
 def parse_properties(props):
-    ppresult = entry.parseString(props)
-    print ppresult.asXML()
-    return {"1":"2"}
+    return t3dpp.parse_properties(props)
 
 def add_intent():
     global intent
@@ -86,8 +73,8 @@ def read_object(obj,f):
             return obj
         else:
             if obj != None:
-                props=parse_properties(line)
-                print props
+                pp=parse_properties(line)
+                obj.properties.update(  pp[0])
 
     return child
 

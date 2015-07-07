@@ -1,4 +1,5 @@
 import sys
+import T3DPropertyParser as t3dpp
 intenter = "   "
 intent_str = "   "
 
@@ -27,24 +28,7 @@ class PyUObject:
 
     def output_properties(self, depth):
         for k,v in self.properties.iteritems():
-            output_device.write(intent_str * depth )
-            self.output_properties_recursiv(k, v, depth)
-            output_device.write("\r\n")
-
-    def output_properties_recursiv(self, key, value, depth):
-        if value.__class__ == dict:
-            output_device.write( key + "=(")
-            need_comma = False
-            for k,v in value.iteritems():
-                if need_comma:
-                    output_device.write(",")
-                else:
-                    need_comma = True
-                self.output_properties_recursiv(k,v,depth)
-            output_device.write(")")
-        else:
-            output_device.write(  key + "=" + value )
-
+            output_device.write(intent_str * depth +k+"=" +t3dpp.dump(v)+"\r\n")
 
 
     #output
