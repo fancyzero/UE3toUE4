@@ -100,8 +100,9 @@ def convert_file(filename):
     all_obj = get_all_objects(root)
     for obj in all_obj:
         convert(root,obj)
-    root.output_declare(0)
-    root.output_detail(0)
+
+    root.output_as_t3d()
+
 
 def main():
     if len(sys.argv) < 2:

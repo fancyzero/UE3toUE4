@@ -2,7 +2,7 @@ import sys
 import T3DPropertyParser as t3dpp
 intenter = "   "
 intent_str = "   "
-
+EOL = "\n"
 output_device=sys.stdout
 class PyUObject:
 
@@ -28,34 +28,45 @@ class PyUObject:
 
     def output_properties(self, depth):
         for k,v in self.properties.iteritems():
-            output_device.write(intent_str * depth +k+"=" +t3dpp.dump(v)+"\r\n")
+            output_device.write(intent_str * depth +k+"=" +t3dpp.dump(v)+EOL)
 
 
     #output
-    def output_declare(self, depth):
+    def output_begin_object(self, depth, output_class=True):
         intent = intent_str * depth
         str = intent + "Begin Object"
+        if self.cls and output_class:
+            str += " Class=" + self.cls
         if self.name:
-            str += " Name=" + self.name
-        if self.cls:
-            str += " CLass=" + self.cls
-        output_device.write( str+"\r\n")
+            str += " Name=\"" + self.name+"\""
+        output_device.write( str+EOL)
+
+    def output_end_object(self,depth):
+        intent = intent_str * depth
+        output_device.write( intent + "End Object"+EOL)
+
+    def output_as_t3d(self):
+        depth = 0
+        self.output_begin_object(0,output_class=True)
         for child in self.children:
             child.output_declare(depth + 1)
-        output_device.write( intent + "End Object\r\n")
+        for child in self.children:
+            child.output_detail(depth + 1)
+        self.output_properties(depth + 1)
+        self.output_end_object(0)
+
+    def output_declare(self, depth):
+        self.output_begin_object(depth,output_class=True)
+        for child in self.children:
+            child.output_declare(depth + 1)
+        self.output_end_object(depth)
 
     def output_detail(self, depth):
-        intent = intent_str * depth
-        str = intent + "Begin Object"
-        if self.name:
-            str += " Name=" + self.name
-        if self.cls:
-            str += " CLass=" + self.cls
-        output_device.write( str+"\r\n")
+        self.output_begin_object(depth,output_class=False)
         self.output_properties(depth + 1)
         for child in self.children:
             child.output_detail(depth + 1)
-        output_device.write( intent + "End Object\r\n")
+        self.output_end_object(depth)
 
     # for debugging
     def debug_list_child(self):
