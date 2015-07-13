@@ -2,6 +2,7 @@ import sys
 import PyUObject
 import T3DPropertyParser as t3dpp
 import re
+import pyparsing as pp
 
 # represent structure and intent level when output
 intent_str = "   "
@@ -47,6 +48,10 @@ def fix_properties(obj):
             del obj.properties[k]
         if k == "Name":
             del obj.properties[k]
+        if k == "ThumbnailTexture":
+            del obj.properties[k]
+        if k == "Material":
+            obj.properties[k] = "Material'/Engine/EngineMaterials/DefaultParticle.DefaultParticle'"
 
 def extract_params(line):
     params = re.findall(r'(\w+)=\"*(\w+)\"*', line)
@@ -94,22 +99,38 @@ def list_struct(filename):
     root = read_object(None,f)
     root.output_struct(0)
 
-def convert_file(filename):
+def convert_file(filename, output):
     f = open(filename)
     root = read_object(None,f)
     all_obj = get_all_objects(root)
     for obj in all_obj:
         convert(root,obj)
 
-    root.output_as_t3d()
+    file_output = open(output,"w")
+    root.output_as_t3d( file_output )
+    file_output.close()
+
 
 
 def main():
-    if len(sys.argv) < 2:
-        print " need file name"
-        exit()
+
+    cmd = " ".join(sys.argv)
+    cmd_options = {}
+
+    def onOption(line, loc, token):
+        cmd_options[token[0]]=token[1]
+
+    option = (pp.Literal("-").suppress() + pp.Word(pp.printables) +pp.Word(pp.printables))
+    option.setParseAction(onOption)
+    output_expr =  pp.ZeroOrMore(pp.Word(pp.printables,excludeChars="-").suppress() |  option)
+    output_expr.parseString(cmd)
+
+    if not cmd_options.has_key("o"):
+        print "use -o <filename> to specify output"
+        return
+
     filename = sys.argv[1]
-    convert_file(filename)
+    convert_file(filename,cmd_options["o"])
 
 
 
